@@ -1,0 +1,72 @@
+﻿@model MusicDemo.Website.ViewModels.AlbumDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AlbumViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AlbumID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlbumID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtistID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtistID)
+        </dd>
+
+    </dl>
+
+	<table class="table">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Tracks)
+			</th>
+			<th>
+				@Html.ActionLink("Add Track", "Create", "Track", routeValues: new { albumID = Model.AlbumID }, htmlAttributes: null)
+			</th>
+		</tr>
+
+		@foreach (var item in Model.Tracks)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", "Track", routeValues: new { albumID = item.AlbumID, trackID = item.TrackID }, htmlAttributes: null) |
+					@Html.ActionLink("Details", "Details", "Track", routeValues: new { albumID = item.AlbumID, trackID = item.TrackID }, htmlAttributes: null) |
+					@using (Html.BeginForm("Delete", "Track", routeValues: new { albumID = item.AlbumID , trackID = item.TrackID }))
+					{
+						@Html.AntiForgeryToken()
+						<button>Delete</button>
+					}
+				</td>
+			</tr>
+		}
+
+	</table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { artistID = Model.ArtistID, albumID = Model.AlbumID }) |
+	@Html.ActionLink("Back to Artist", "Details", "Artist", routeValues: new { artistID = Model.ArtistID }, htmlAttributes: null)
+</p>
