@@ -18,10 +18,8 @@ namespace MusicDemo.Website.Backend.Database
 			CreateMap<Artist, DBModels.Artist>()
 				.ForMember(m => m.Albums, opt => opt.Ignore());
 			CreateMap<Album, DBModels.Album>()
-				.ForMember(m => m.Artist, opt => opt.Ignore())
 				.ForMember(m => m.Tracks, opt => opt.Ignore());
-			CreateMap<Track, DBModels.Track>()
-				.ForMember(m => m.Album, opt => opt.Ignore());
+			CreateMap<Track, DBModels.Track>();
 		}
 	}
 }

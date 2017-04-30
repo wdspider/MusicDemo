@@ -10,7 +10,6 @@ namespace MusicDemo.Database.Models
 		public int Number { get; set; }
 
 		public int AlbumID { get; set; }
-		public virtual Album Album { get; set; }
 		#endregion
 	}
 }

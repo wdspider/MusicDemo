@@ -32,7 +32,7 @@ namespace MusicDemo.Website.Controllers
 		{
 			// Verify album exists
 			Album album = await backend.AlbumGetByIDAsync(artistID, albumID);
-			if (album == null) return RedirectToAction("Details", "Artist", routeValues: new { artistID = artistID });
+			if (album == null) return RedirectToAction("Details", "Album", routeValues: new { artistID = artistID, albumID = albumID });
 
 			return View(new TrackViewModel { ArtistID = artistID, AlbumID = albumID });
 		}

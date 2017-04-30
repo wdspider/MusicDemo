@@ -34,19 +34,11 @@ namespace MusicDemo.Website.Controllers
         {
             return View(autoMapper.Map<List<ArtistViewModel>>(await backend.ArtistGetAllAsync()));
         }
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Delete(int artistID)
-		{
-			// Delete artist
-			await backend.ArtistDeleteByIDAsync(artistID);
-			return RedirectToAction("Index");
-		}
 		#endregion
 
 		#region Create View
 		[HttpGet]
-		public async Task<ActionResult> Create()
+		public ActionResult Create()
 		{
 			return View();
 		}
@@ -117,6 +109,15 @@ namespace MusicDemo.Website.Controllers
 			return View(autoMapper.Map<ArtistDetailsViewModel>(artist));
 		}
 		#endregion
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> Delete(int artistID)
+		{
+			// Delete artist
+			await backend.ArtistDeleteByIDAsync(artistID);
+			return RedirectToAction("Index");
+		}
 		#endregion
 	}
 }
