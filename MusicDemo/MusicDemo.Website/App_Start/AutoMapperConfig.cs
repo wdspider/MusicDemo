@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MusicDemo.Website.Backend.Database;
+using MusicDemo.Website.Backend.BackendProviders.Database;
 using MusicDemo.Website.ViewModels;
 
 namespace MusicDemo.Website.App_Start

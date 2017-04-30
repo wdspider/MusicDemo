@@ -149,9 +149,6 @@
     <Compile Include="App_Start\NinjectBindingConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Backend\Database\DBBackendProvider.cs" />
-    <Compile Include="Backend\Database\DBModelMappingProfile.cs" />
-    <Compile Include="Backend\BackendProvider.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Controllers\TrackController.cs" />
@@ -159,9 +156,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Album.cs" />
-    <Compile Include="Models\Artist.cs" />
-    <Compile Include="Models\Track.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AlbumDetailsViewModel.cs" />
     <Compile Include="ViewModels\AlbumViewModel.cs" />
@@ -234,16 +228,16 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MusicDemo.Database\MusicDemo.Database.csproj">
-      <Project>{3e2f47d5-3543-4cc1-9212-bca882923b5f}</Project>
-      <Name>MusicDemo.Database</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MusicDemo.Website.Backend\MusicDemo.Website.Backend.csproj">
+      <Project>{b866a0f9-cb29-402a-9d06-99e9a0c874dc}</Project>
+      <Name>MusicDemo.Website.Backend</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

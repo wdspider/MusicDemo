@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using MusicDemo.Website.Models;
+using MusicDemo.Website.Backend.Models;
 
-namespace MusicDemo.Website.Backend
+namespace MusicDemo.Website.Backend.BackendProviders
 {
 	public abstract class BackendProvider
 	{

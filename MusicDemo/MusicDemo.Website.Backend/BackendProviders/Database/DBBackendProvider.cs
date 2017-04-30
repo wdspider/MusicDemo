@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MusicDemo.Database;
-using MusicDemo.Website.Models;
+using MusicDemo.Website.Backend.Models;
 using DBModels = MusicDemo.Database.Models;
 
-namespace MusicDemo.Website.Backend.Database
+namespace MusicDemo.Website.Backend.BackendProviders.Database
 {
 	public class DBBackendProvider : BackendProvider
 	{

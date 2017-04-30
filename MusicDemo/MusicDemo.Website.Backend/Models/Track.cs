@@ -1,4 +1,4 @@
-﻿namespace MusicDemo.Website.Models
+﻿namespace MusicDemo.Website.Backend.Models
 {
 	public class Track
 	{

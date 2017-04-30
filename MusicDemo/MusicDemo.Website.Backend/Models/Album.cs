@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MusicDemo.Website.Models
+namespace MusicDemo.Website.Backend.Models
 {
 	public class Album
 	{

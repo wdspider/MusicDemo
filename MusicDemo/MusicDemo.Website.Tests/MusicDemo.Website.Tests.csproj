@@ -98,7 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackendProviders\DBBackendProviderTests.cs" />
     <Compile Include="Controllers\ArtistControllerTests.cs" />
     <Compile Include="Controllers\AlbumControllerTests.cs" />
     <Compile Include="Controllers\TrackControllerTests.cs" />
@@ -114,6 +113,10 @@
     <ProjectReference Include="..\MusicDemo.Database\MusicDemo.Database.csproj">
       <Project>{3E2F47D5-3543-4CC1-9212-BCA882923B5F}</Project>
       <Name>MusicDemo.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MusicDemo.Website.Backend\MusicDemo.Website.Backend.csproj">
+      <Project>{B866A0F9-CB29-402A-9D06-99E9A0C874DC}</Project>
+      <Name>MusicDemo.Website.Backend</Name>
     </ProjectReference>
     <ProjectReference Include="..\MusicDemo.Website\MusicDemo.Website.csproj">
       <Project>{404B9297-9329-4EDC-9FBA-7240179DB61C}</Project>

@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using AutoMapper;
-using MusicDemo.Website.Models;
+﻿using AutoMapper;
+using MusicDemo.Website.Backend.Models;
 using DBModels = MusicDemo.Database.Models;
 
-namespace MusicDemo.Website.Backend.Database
+namespace MusicDemo.Website.Backend.BackendProviders.Database
 {
 	public class DBModelMappingProfile : Profile
 	{

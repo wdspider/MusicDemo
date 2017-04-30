@@ -5,11 +5,11 @@ using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MusicDemo.Database;
-using MusicDemo.Website.Backend.Database;
-using MusicDemo.Website.Models;
+using MusicDemo.Website.Backend.BackendProviders.Database;
+using MusicDemo.Website.Backend.Models;
 using DBModels = MusicDemo.Database.Models;
 
-namespace MusicDemo.Website.Tests.BackendProviders
+namespace MusicDemo.Website.Backend.Tests.BackendProviders
 {
 	[TestClass]
 	[TestCategory("Backend Tests - DBBackendProvider")]

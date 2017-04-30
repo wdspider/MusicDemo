@@ -5,9 +5,9 @@ using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MusicDemo.Website.Backend;
+using MusicDemo.Website.Backend.BackendProviders;
+using MusicDemo.Website.Backend.Models;
 using MusicDemo.Website.Controllers;
-using MusicDemo.Website.Models;
 using MusicDemo.Website.ViewModels;
 
 namespace MusicDemo.Website.Tests.Controllers

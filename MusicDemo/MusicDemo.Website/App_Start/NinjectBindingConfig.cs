@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using MusicDemo.Database;
-using MusicDemo.Website.Backend;
-using MusicDemo.Website.Backend.Database;
+using MusicDemo.Website.Backend.BackendProviders.Database;
 using Ninject;
-using Ninject.Web.Common;
 
 namespace MusicDemo.Website.App_Start
 {
@@ -14,9 +11,8 @@ namespace MusicDemo.Website.App_Start
 			// Initialize bindings
 			kernel.Bind<IMapper>().ToMethod(m => AutoMapperConfig.Initialize()).InSingletonScope();
 
-			kernel.Bind<MusicDemoDbContext>().ToSelf().InRequestScope();
-			kernel.Bind<MusicDemoRepository>().ToSelf().InRequestScope();
-			kernel.Bind<BackendProvider>().To<DBBackendProvider>().InRequestScope();
+			// Add database backend provider bindings
+			DBKernelBindings.Initialize(kernel);
 		}
 	}
 }

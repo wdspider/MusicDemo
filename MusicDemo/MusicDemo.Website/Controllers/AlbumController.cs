@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
-using MusicDemo.Website.Backend;
-using MusicDemo.Website.Models;
+using MusicDemo.Website.Backend.BackendProviders;
+using MusicDemo.Website.Backend.Models;
 using MusicDemo.Website.ViewModels;
 
 namespace MusicDemo.Website.Controllers
 {
-    public class AlbumController : Controller
+	public class AlbumController : Controller
     {
 		#region Internal State
 		private readonly BackendProvider backend;

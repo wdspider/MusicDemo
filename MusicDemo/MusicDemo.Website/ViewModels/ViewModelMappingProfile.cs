@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using MusicDemo.Website.Models;
+using MusicDemo.Website.Backend.Models;
 
 namespace MusicDemo.Website.ViewModels
 {

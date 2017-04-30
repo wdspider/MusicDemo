@@ -1,10 +1,8 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
-using MusicDemo.Website.Backend;
-using MusicDemo.Website.Models;
+using MusicDemo.Website.Backend.BackendProviders;
+using MusicDemo.Website.Backend.Models;
 using MusicDemo.Website.ViewModels;
 
 namespace MusicDemo.Website.Controllers
