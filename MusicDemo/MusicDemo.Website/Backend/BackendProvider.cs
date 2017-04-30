@@ -30,15 +30,15 @@ namespace MusicDemo.Website.Backend
 
 		#region Album
 		public abstract Task<bool> AlbumAddAsync(Album album);
-		public abstract Task<bool> AlbumDeleteByIDAsync(int albumID);
-		public abstract Task<Album> AlbumGetByIDAsync(int albumID);
+		public abstract Task<bool> AlbumDeleteByIDAsync(int artistID, int albumID);
+		public abstract Task<Album> AlbumGetByIDAsync(int artistID, int albumID);
 		public abstract Task<bool> AlbumUpdateAsync(Album album);
 		#endregion
 
 		#region Track
 		public abstract Task<bool> TrackAddAsync(Track track);
-		public abstract Task<bool> TrackDeleteByIDAsync(int trackID);
-		public abstract Task<Track> TrackGetByIDAsync(int trackID);
+		public abstract Task<bool> TrackDeleteByIDAsync(int albumID, int trackID);
+		public abstract Task<Track> TrackGetByIDAsync(int albumID, int trackID);
 		public abstract Task<bool> TrackUpdateAsync(Track track);
 		#endregion
 		#endregion

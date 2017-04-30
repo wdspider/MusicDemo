@@ -15,7 +15,8 @@ namespace MusicDemo.Website.ViewModels
 			CreateMap<Album, AlbumViewModel>();
 			CreateMap<Album, AlbumDetailsViewModel>()
 				.ForMember(m => m.Tracks, opt => opt.MapFrom(s => s.Tracks.OrderBy(t => t.Number).ToList()));
-			CreateMap<Track, TrackViewModel>();
+			CreateMap<Track, TrackViewModel>()
+				.ForMember(m => m.ArtistID, opt => opt.Ignore());
 
 			// Map View Models => Models
 			CreateMap<ArtistViewModel, Artist>()

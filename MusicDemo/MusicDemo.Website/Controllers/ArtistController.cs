@@ -62,7 +62,7 @@ namespace MusicDemo.Website.Controllers
 				if (wasSaved) return RedirectToAction("Index");
 
 				// Artist wasn't saved, display error message
-				ModelState.AddModelError("Artist", "There was an issue saving the artist");
+				ModelState.AddModelError("", "There was an issue saving the artist");
 				return View(newArtist);
 			}
 
@@ -98,7 +98,7 @@ namespace MusicDemo.Website.Controllers
 				if (wasUpdated) return RedirectToAction("Index");
 
 				// Artist wasn't updated, display error message
-				ModelState.AddModelError("ArtistID", "Could not find artist in database to update.");
+				ModelState.AddModelError("", "Could not find artist in database to update.");
 				return View(updatedArtist);
 			}
 
@@ -110,7 +110,11 @@ namespace MusicDemo.Website.Controllers
 		[HttpGet]
 		public async Task<ActionResult> Details(int artistID)
 		{
-			return View(autoMapper.Map<ArtistDetailsViewModel>(await backend.ArtistGetByIDAsync(artistID)));
+			// Get details from database
+			Artist artist = await backend.ArtistGetByIDAsync(artistID);
+			if (artist == null) return RedirectToAction("Index");
+			
+			return View(autoMapper.Map<ArtistDetailsViewModel>(artist));
 		}
 		#endregion
 		#endregion

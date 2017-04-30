@@ -1,37 +1,63 @@
 ﻿@model IEnumerable<MusicDemo.Website.ViewModels.ArtistViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Artists";
 }
 
-<h2>Index</h2>
+<div class="page-header">
+	<h1>
+		Artists
+	</h1>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { artistID=item.ArtistID }) |
-            @Html.ActionLink("Details", "Details", new { artistID=item.ArtistID }) |
-            @using (Html.BeginForm("Delete", "Artist", routeValues: new { artistID = item.ArtistID }))
-			{
-				@Html.AntiForgeryToken()
-				<button>Delete</button>
-			}
-        </td>
-    </tr>
+@if (Model.Any())
+{
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			@Html.ActionLink("Add New Artist", "Create", routeValues: null, htmlAttributes: new { @class = "btn btn-block btn-primary" })
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<tbody>
+					@foreach(var item in Model)
+					{
+						<tr>
+							<td class="linkholder">
+								<a href="@(Url.Action("Details", routeValues: new { artistID = item.ArtistID }))">
+									@Html.DisplayFor(modelItem => item.Name)
+								</a>
+							</td>
+							<td class="commandholder">
+								<a href="@(Url.Action("Edit", routeValues: new { artistID = item.ArtistID }))" class="btn btn-default btn-sm">
+									<span class="glyphicon glyphicon-pencil">
+										<span class="sr-only">Edit</span>
+									</span>
+								</a>
+								@using (Html.BeginForm("Delete", "Artist", method: FormMethod.Post, routeValues: new { artistID = item.ArtistID },
+									htmlAttributes: new { @class = "form-inline" }))
+								{
+									@Html.AntiForgeryToken()
+									<button class="btn btn-default btn-sm">
+										<span class="glyphicon glyphicon-trash">
+											<span class="sr-only">Delete</span>
+										</span>
+									</button>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+		<div class="panel-footer">
+			@Html.ActionLink("Add New Artist", "Create", routeValues: null, htmlAttributes: new { @class = "btn btn-block btn-primary" })
+		</div>
+	</div>
 }
-
-</table>
+else
+{
+	<div class="alert alert-info">
+		There are currently no artists in the database.
+		@Html.ActionLink("Create a new artist now.", "Create", routeValues: null, htmlAttributes: new { @class = "alert-link" })
+	</div>
+}

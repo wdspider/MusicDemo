@@ -16,6 +16,8 @@ namespace MusicDemo.Website.ViewModels
 
 		[Display(Name = "Album ID")]
 		public int AlbumID { get; set; }
+		[Display(Name = "Artist ID")]
+		public int ArtistID { get; set; }
 		#endregion
 	}
 }

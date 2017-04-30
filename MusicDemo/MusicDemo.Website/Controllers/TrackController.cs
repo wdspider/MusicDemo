@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -27,9 +28,13 @@ namespace MusicDemo.Website.Controllers
 		#region Action Results
 		#region Create View
 		[HttpGet]
-		public async Task<ActionResult> Create(int albumID)
+		public async Task<ActionResult> Create(int artistID, int albumID)
 		{
-			return View(new TrackViewModel { AlbumID = albumID });
+			// Verify album exists
+			Album album = await backend.AlbumGetByIDAsync(artistID, albumID);
+			if (album == null) return RedirectToAction("Details", "Artist", routeValues: new { artistID = artistID });
+
+			return View(new TrackViewModel { ArtistID = artistID, AlbumID = albumID });
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -39,17 +44,11 @@ namespace MusicDemo.Website.Controllers
 			if (ModelState.IsValid)
 			{   // Yes
 				// Save album to backend
-				bool wasSaved = false;
-				try { wasSaved = await backend.TrackAddAsync(autoMapper.Map<Track>(newTrack)); }
-				catch(SqlException ex)
-				{
-					wasSaved = false;
-					ModelState.AddModelError("DatabaseError", ex);
-				}
-				if (wasSaved) return RedirectToAction("Details", "Album", routeValues: new { albumID = newTrack.AlbumID });
+				bool wasSaved = await backend.TrackAddAsync(autoMapper.Map<Track>(newTrack));
+				if (wasSaved) return RedirectToAction("Details", "Album", routeValues: new { artistID = newTrack.ArtistID, albumID = newTrack.AlbumID });
 
 				// Album didn't save, display error message
-				ModelState.AddModelError("Track", "There was an issue saving the track");
+				ModelState.AddModelError("", "There was an issue saving the track");
 				return View(newTrack);
 			}
 
@@ -59,19 +58,21 @@ namespace MusicDemo.Website.Controllers
 
 		#region Edit View
 		[HttpGet]
-		public async Task<ActionResult> Edit(int albumID, int trackID)
+		public async Task<ActionResult> Edit(int artistID, int albumID, int trackID)
 		{
-			Track desiredTrack = await backend.TrackGetByIDAsync(trackID);
+			Track desiredTrack = await backend.TrackGetByIDAsync(albumID, trackID);
 
 			// Was the track found?
 			if (desiredTrack != null)
 			{   // Yes
 				// Allow track to be edited
-				return View(autoMapper.Map<TrackViewModel>(desiredTrack));
+				TrackViewModel viewModel = autoMapper.Map<TrackViewModel>(desiredTrack);
+				viewModel.ArtistID = artistID;
+				return View(viewModel);
 			}
 
 			// Track wasn't found, redirect back to list
-			return RedirectToAction("Details", "Album", routeValues: new { albumID = albumID });
+			return RedirectToAction("Details", "Album", routeValues: new { artistID = artistID, albumID = albumID });
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -82,10 +83,10 @@ namespace MusicDemo.Website.Controllers
 			{   // Yes
 				// Update track
 				bool wasUpdated = await backend.TrackUpdateAsync(autoMapper.Map<Track>(updatedTrack));
-				if (wasUpdated) return RedirectToAction("Details", "Album", routeValues: new { albumID = updatedTrack.AlbumID });
+				if (wasUpdated) return RedirectToAction("Details", "Album", routeValues: new { artistID = updatedTrack.ArtistID, albumID = updatedTrack.AlbumID });
 
 				// Track wasn't updated, display error message
-				ModelState.AddModelError("Track", "Could not find track in database to update.");
+				ModelState.AddModelError("", "Could not find track in database to update.");
 				return View(updatedTrack);
 			}
 
@@ -93,21 +94,13 @@ namespace MusicDemo.Website.Controllers
 		}
 		#endregion
 
-		#region Details View
-		[HttpGet]
-		public async Task<ActionResult> Details(int trackID)
-		{
-			return View(autoMapper.Map<TrackViewModel>(await backend.TrackGetByIDAsync(trackID)));
-		}
-		#endregion
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Delete(int albumID, int trackID)
+		public async Task<ActionResult> Delete(int artistID, int albumID, int trackID)
 		{
 			// Delete track
-			await backend.TrackDeleteByIDAsync(trackID);
-			return RedirectToAction("Details", "Album", routeValues: new { albumID = albumID });
+			await backend.TrackDeleteByIDAsync(albumID, trackID);
+			return RedirectToAction("Details", "Album", routeValues: new { artistID = artistID, albumID = albumID });
 		}
 		#endregion
 	}

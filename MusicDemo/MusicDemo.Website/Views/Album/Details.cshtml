@@ -1,72 +1,79 @@
 ﻿@model MusicDemo.Website.ViewModels.AlbumDetailsViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Album Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>AlbumViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AlbumID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AlbumID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ArtistID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ArtistID)
-        </dd>
-
-    </dl>
-
-	<table class="table">
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Tracks)
-			</th>
-			<th>
-				@Html.ActionLink("Add Track", "Create", "Track", routeValues: new { albumID = Model.AlbumID }, htmlAttributes: null)
-			</th>
-		</tr>
-
-		@foreach (var item in Model.Tracks)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Name)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", "Track", routeValues: new { albumID = item.AlbumID, trackID = item.TrackID }, htmlAttributes: null) |
-					@Html.ActionLink("Details", "Details", "Track", routeValues: new { albumID = item.AlbumID, trackID = item.TrackID }, htmlAttributes: null) |
-					@using (Html.BeginForm("Delete", "Track", routeValues: new { albumID = item.AlbumID , trackID = item.TrackID }))
-					{
-						@Html.AntiForgeryToken()
-						<button>Delete</button>
-					}
-				</td>
-			</tr>
-		}
-
-	</table>
+<div class="page-header">
+	<h1>
+		<a href="@(Url.Action("Details", "Artist", routeValues: new { artistID = Model.ArtistID }))" class="btn btn-primary btn-sm">
+			<span class="glyphicon glyphicon-chevron-left">
+				<span class="sr-only">Back To Artist</span>
+			</span>
+		</a>
+		<small>
+			Album
+		</small>
+		@Html.DisplayFor(model => model.Name)
+		<a href="@(Url.Action("Edit", routeValues: new { artistID = Model.ArtistID, albumID = Model.AlbumID }))" class="btn btn-default btn-sm">
+			<span class="glyphicon glyphicon-pencil">
+				<span class="sr-only">Edit</span>
+			</span>
+		</a>
+	</h1>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { artistID = Model.ArtistID, albumID = Model.AlbumID }) |
-	@Html.ActionLink("Back to Artist", "Details", "Artist", routeValues: new { artistID = Model.ArtistID }, htmlAttributes: null)
-</p>
+
+@if (Model.Tracks.Any())
+{
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			@Html.ActionLink("Add New Track", "Create", "Track", routeValues: new { artistID = Model.ArtistID, albumID = Model.AlbumID }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<tbody>
+					@foreach (var item in Model.Tracks)
+					{
+						<tr>
+							<td class="textholder">
+								<span class="badge">
+									@Html.DisplayFor(modelItem => item.Number)
+								</span>
+								<span>
+									@Html.DisplayFor(modelItem => item.Name)
+								</span>
+							</td>
+							<td class="commandholder">
+								<a href="@(Url.Action("Edit", "Track", routeValues: new { artistID = Model.ArtistID, albumID = item.AlbumID, trackID = item.TrackID }))" class="btn btn-default btn-sm">
+									<span class="glyphicon glyphicon-pencil">
+										<span class="sr-only">Edit</span>
+									</span>
+								</a>
+								@using (Html.BeginForm("Delete", "Track", method: FormMethod.Post, routeValues: new { artistID = Model.ArtistID, albumID = item.AlbumID, trackID = item.TrackID },
+									htmlAttributes: new { @class = "form-inline" }))
+								{
+									@Html.AntiForgeryToken()
+									<button class="btn btn-default btn-sm">
+										<span class="glyphicon glyphicon-trash">
+											<span class="sr-only">Delete</span>
+										</span>
+									</button>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+		<div class="panel-footer">
+			@Html.ActionLink("Add New Track", "Create", "Track", routeValues: new { artistID = Model.ArtistID, albumID = Model.AlbumID }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
+		</div>
+	</div>
+}
+else
+{
+	<div class="alert alert-info">
+		This album currently does not have any tracks within the database.
+		@Html.ActionLink("Add a track now.", "Create", "Track", routeValues: new { artistID = Model.ArtistID, albumID = Model.AlbumID }, htmlAttributes: new { @class = "alert-link" })
+	</div>
+}

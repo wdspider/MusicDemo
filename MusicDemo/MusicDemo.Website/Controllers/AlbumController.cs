@@ -32,6 +32,10 @@ namespace MusicDemo.Website.Controllers
 		[HttpGet]
 		public async Task<ActionResult> Create(int artistID)
 		{
+			// Verify artist exists
+			Artist artist = await backend.ArtistGetByIDAsync(artistID);
+			if (artist == null) return RedirectToAction("Index", "Artist");
+
 			return View(new AlbumViewModel { ArtistID = artistID });
 		}
 		[HttpPost]
@@ -46,7 +50,7 @@ namespace MusicDemo.Website.Controllers
 				if (wasSaved) return RedirectToAction("Details", "Artist", routeValues: new { artistID = newAlbum.ArtistID });
 
 				// Album didn't save, display error message
-				ModelState.AddModelError("AlbumID", "There was an issue saving the album");
+				ModelState.AddModelError("", "There was an issue saving the album");
 				return View(newAlbum);
 			}
 
@@ -58,7 +62,7 @@ namespace MusicDemo.Website.Controllers
 		[HttpGet]
 		public async Task<ActionResult> Edit(int artistID, int albumID)
 		{
-			Album desiredAlbum = await backend.AlbumGetByIDAsync(albumID);
+			Album desiredAlbum = await backend.AlbumGetByIDAsync(artistID, albumID);
 
 			// Was the album found?
 			if (desiredAlbum != null)
@@ -82,7 +86,7 @@ namespace MusicDemo.Website.Controllers
 				if (wasUpdated) return RedirectToAction("Details", "Artist", routeValues: new { artistID = updatedAlbum.ArtistID });
 
 				// Album wasn't updated, display error message
-				ModelState.AddModelError("Album", "Could not find album in database to update.");
+				ModelState.AddModelError("", "Could not find album in database to update.");
 				return View(updatedAlbum);
 			}
 
@@ -92,9 +96,13 @@ namespace MusicDemo.Website.Controllers
 
 		#region Details View
 		[HttpGet]
-		public async Task<ActionResult> Details(int albumID)
+		public async Task<ActionResult> Details(int artistID, int albumID)
 		{
-			return View(autoMapper.Map<AlbumDetailsViewModel>(await backend.AlbumGetByIDAsync(albumID)));
+			// Get desired album
+			Album album = await backend.AlbumGetByIDAsync(artistID, albumID);
+			if(album == null) return RedirectToAction("Details", "Artist", routeValues: new { artistID = artistID});
+
+			return View(autoMapper.Map<AlbumDetailsViewModel>(album));
 		}
 		#endregion
 
@@ -103,7 +111,7 @@ namespace MusicDemo.Website.Controllers
 		public async Task<ActionResult> Delete(int artistID, int albumID)
 		{
 			// Delete album
-			await backend.AlbumDeleteByIDAsync(albumID);
+			await backend.AlbumDeleteByIDAsync(artistID, albumID);
 			return RedirectToAction("Details", "Artist", routeValues: new { artistID = artistID });
 		}
 		#endregion

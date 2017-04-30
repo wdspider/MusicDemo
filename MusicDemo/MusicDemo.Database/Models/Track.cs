@@ -7,7 +7,6 @@ namespace MusicDemo.Database.Models
 		#region Properties
 		public int TrackID { get; set; }
 		public string Name { get; set; }
-		[Index(IsUnique = true)]
 		public int Number { get; set; }
 
 		public int AlbumID { get; set; }

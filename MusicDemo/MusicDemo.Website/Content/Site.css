@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -16,9 +16,55 @@
     white-space: normal;
 }
 
+/* Bootstrap's form-inline doesn't seem to actually set the display to inline */
+form.form-inline {
+	display: inline;
+}
+
+/* Override bootstrap block button text size */
+.btn.btn-block {
+	font-size: medium;
+}
+
+/* Remove top margin from bootstrap page-header */
+.page-header {
+	margin-top: 0px;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
+}*/
+
+div.validation-summary-errors > ul {
+	list-style-type: none;
+}
+.input-validation-error.form-control {
+	border-color: #d9534f;
+}
+
+tbody > tr > td.textholder,
+tbody > tr > td.linkholder {
+	padding-left: 15px;
+	vertical-align: middle;
+}
+td.textholder > span {
+	font-size: medium;
+}
+td.textholder > span:not(.badge) {
+	padding-left: 10px;
+}
+tbody > tr > td.linkholder {
+	cursor: pointer;
+}
+td.linkholder > a {
+	display: block;
+	font-size: medium;
+}
+tbody > tr > td.commandholder {
+	padding-right: 15px;
+	text-align: right;
+	width: 100px;
 }

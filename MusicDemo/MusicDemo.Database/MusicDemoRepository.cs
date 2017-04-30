@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using MusicDemo.Database.Models;
@@ -49,12 +52,17 @@ namespace MusicDemo.Database
 		public virtual async Task<int> ArtistUpdateAsync(Artist artist)
 		{
 			// Find artist to update
-			Artist toUpdate = await dbContext.Artists.FirstOrDefaultAsync(a => a.ArtistID == artist.ArtistID);
-			if (toUpdate == null) return 0;
+			Artist toUpdate;
+			try { toUpdate = await dbContext.Artists.FirstOrDefaultAsync(a => a.ArtistID == artist.ArtistID); }
+			catch { toUpdate = null; }
+			if (toUpdate == null) return -1;
 
 			// Update found artist
 			dbContext.Entry(toUpdate).CurrentValues.SetValues(artist);
-			return await dbContext.SaveChangesAsync();
+			int recordsChanged;
+			try { recordsChanged = await dbContext.SaveChangesAsync(); }
+			catch { recordsChanged = 0; }
+			return recordsChanged;
 		}
 		#endregion
 
@@ -65,28 +73,33 @@ namespace MusicDemo.Database
 			dbContext.Albums.Add(album);
 			return dbContext.SaveChangesAsync();
 		}
-		public virtual Task<int> AlbumDeleteByIDAsync(int albumID)
+		public virtual Task<int> AlbumDeleteByIDAsync(int artistID, int albumID)
 		{
 			// Delete album
-			Album toDelete = new Album { AlbumID = albumID };
+			Album toDelete = new Album { ArtistID = artistID, AlbumID = albumID };
 			dbContext.Albums.Attach(toDelete);
 			dbContext.Albums.Remove(toDelete);
 			return dbContext.SaveChangesAsync();
 		}
-		public virtual Task<Album> AlbumGetByIDAsync(int albumID)
+		public virtual Task<Album> AlbumGetByIDAsync(int artistID, int albumID)
 		{
 			// Return desired album
-			return dbContext.Albums.FirstOrDefaultAsync(a => a.AlbumID == albumID);
+			return dbContext.Albums.FirstOrDefaultAsync(a => a.ArtistID == artistID && a.AlbumID == albumID);
 		}
 		public virtual async Task<int> AlbumUpdateAsync(Album album)
 		{
 			// Find album to update
-			Album toUpdate = await dbContext.Albums.FirstOrDefaultAsync(a => a.AlbumID == album.AlbumID);
-			if (toUpdate == null) return 0;
+			Album toUpdate;
+			try { toUpdate = await dbContext.Albums.FirstOrDefaultAsync(a => a.ArtistID == album.ArtistID && a.AlbumID == album.AlbumID); }
+			catch { toUpdate = null; }
+			if (toUpdate == null) return -1;
 
 			// Update found album
 			dbContext.Entry(toUpdate).CurrentValues.SetValues(album);
-			return await dbContext.SaveChangesAsync();
+			int recordsChanged;
+			try { recordsChanged = await dbContext.SaveChangesAsync(); }
+			catch { recordsChanged = 0; }
+			return recordsChanged;
 		}
 		#endregion
 
@@ -97,28 +110,33 @@ namespace MusicDemo.Database
 			dbContext.Tracks.Add(track);
 			return dbContext.SaveChangesAsync();
 		}
-		public virtual Task<int> TrackDeleteByIDAsync(int trackID)
+		public virtual Task<int> TrackDeleteByIDAsync(int albumID, int trackID)
 		{
 			// Delete track
-			Track toDelete = new Track { TrackID = trackID };
+			Track toDelete = new Track { AlbumID = albumID, TrackID = trackID };
 			dbContext.Tracks.Attach(toDelete);
 			dbContext.Tracks.Remove(toDelete);
 			return dbContext.SaveChangesAsync();
 		}
-		public virtual Task<Track> TrackGetByIDAsync(int trackID)
+		public virtual Task<Track> TrackGetByIDAsync(int albumID, int trackID)
 		{
 			// Return desired track
-			return dbContext.Tracks.FirstOrDefaultAsync(t => t.TrackID == trackID);
+			return dbContext.Tracks.FirstOrDefaultAsync(t => t.AlbumID == albumID && t.TrackID == trackID);
 		}
 		public virtual async Task<int> TrackUpdateAsync(Track track)
 		{
 			// Find track to update
-			Track toUpdate = await dbContext.Tracks.FirstOrDefaultAsync(t => t.TrackID == track.TrackID);
-			if (toUpdate == null) return 0;
+			Track toUpdate;
+			try { toUpdate = await dbContext.Tracks.FirstOrDefaultAsync(t => t.AlbumID == track.AlbumID && t.TrackID == track.TrackID); }
+			catch { toUpdate = null; }
+			if (toUpdate == null) return -1;
 
 			// Update found track
 			dbContext.Entry(toUpdate).CurrentValues.SetValues(track);
-			return await dbContext.SaveChangesAsync();
+			int recordChanges;
+			try { recordChanges = await dbContext.SaveChangesAsync(); }
+			catch { recordChanges = 0; }
+			return recordChanges;
 		}
 		#endregion
 		#endregion
