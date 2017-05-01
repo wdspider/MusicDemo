@@ -41,7 +41,7 @@ This class functions as the glue between the `BackendProvider` abstraction and t
 \--- *Example Class: `BackendProviders\Database\DBBackendProvider.cs`*
 
 ##### [Automapper](http://automapper.org/) `Profile` Implementation
-This class defines all of the [Automapper](http://automapper.org/) mappings used within the `BackendProvider` abstraction implementation.  Generally, these will be the mappings needed to translate from the website backend models to the actual backend provider models and vis versa.
+This class defines all of the [Automapper](http://automapper.org/) mappings used within the `BackendProvider` abstraction implementation.  Generally, these will be the mappings needed to translate from the website backend models to the actual backend provider models and vis versa.  
 \--- *Example Class: `BackendProviders\Database\DBModelMappingProfile.cs`*
 
 ##### [Ninject](http://www.ninject.org/index.html) Kernel Bindings
@@ -51,4 +51,4 @@ This class contains a `public static void Initialize(IKernel kernel)` method tha
 ### Backend Provider Implementation
 The *MusicDemo.Database* project functions as the backend provider implementation.  The project makes use of the Repository pattern to access an [Entity Framework](https://github.com/aspnet/EntityFramework6) database that stores the artist, album, and track information the user provided via the website.
 
-However, the backend provider implementation does not need to be an [Entity Framework](https://github.com/aspnet/EntityFramework6) database.  The backend provider implementation could just as easily be a SOAP API or a REST API.  Thanks to the `BackendProvider` abstraction within the website backend, the website does not care what the actual backend provider implementation is so long as the user’s artist, album, and track information can be stored and retrieved.
+However, the backend provider implementation does not need to be an [Entity Framework](https://github.com/aspnet/EntityFramework6) database.  The backend provider implementation could just as easily be a SOAP API or a REST API.  Thanks to the `BackendProvider` abstraction within the website backend, the website does not care what the actual backend provider implementation is so long as the userâ€™s artist, album, and track information can be stored and retrieved.
